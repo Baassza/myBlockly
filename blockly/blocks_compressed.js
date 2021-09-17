@@ -3052,6 +3052,7 @@ Blockly.Blocks.variables_set_type = {
         this.setInputsInline(!0);
         this.setOutput(!0);
         this.setTooltip(Blockly.Msg.ARD_VAR_AS_TIP)
+        console.log(Blockly.Types.getValidTypeArray())
     },
     getBlockType: function () {
         var a = this.getFieldValue("VARIABLE_SETTYPE_TYPE");
@@ -3363,9 +3364,55 @@ Blockly.Blocks.APDS9960_color = {
         this.setTooltip('Color');
     }
 };
+Blockly.Blocks.weight_findz = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("scales find zero factor  DOUT")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "DOUT")
+            .appendField("CLK")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "CLK");
+        this.setOutput(true, "LARGE_NUMBER");
+        this.setColour(Blockly.Blocks.measure.HUE);
+        this.setTooltip("Read zero factor (type large number ) from scales for calibration.");
+        this.setHelpUrl("https://create.arduino.cc/projecthub/electropeak/digital-force-gauge-weight-scale-w-loadcell-arduino-7a7fd5");
+    }
+};
 
+Blockly.Blocks.weight_findc = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("scales find calibration factor  DOUT")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "DOUT")
+            .appendField("CLK")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "CLK")
+            .appendField("  real weight")
+            .appendField(new Blockly.FieldNumber(0), "real_weight")
+            .appendField("  zero factor")
+            .appendField(new Blockly.FieldNumber(0), "zero_factor");
+        this.setOutput(true, "LARGE_NUMBER");
+        this.setColour(Blockly.Blocks.measure.HUE);
+        this.setTooltip("Read calibration factor (type large number ) from scales for read weight. It takes a while, so only do it in setup.");
+        this.setHelpUrl("https://create.arduino.cc/projecthub/electropeak/digital-force-gauge-weight-scale-w-loadcell-arduino-7a7fd5");
+    }
 
-
+};
+Blockly.Blocks.readweight = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("read weight from scales  DOUT")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "DOUT")
+            .appendField("CLK")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "CLK")
+            .appendField("  offset")
+            .appendField(new Blockly.FieldNumber(0), "offset")
+            .appendField(" calibration factor")
+            .appendField(new Blockly.FieldNumber(0), "calibration_factor");
+        this.setOutput(true, null);
+        this.setColour(Blockly.Blocks.measure.HUE);
+        this.setTooltip("Read weight (type Decimal 2 digit) from scales.");
+        this.setHelpUrl("https://create.arduino.cc/projecthub/electropeak/digital-force-gauge-weight-scale-w-loadcell-arduino-7a7fd5");
+    }
+};
 
 Blockly.Blocks.display = {}
 Blockly.Blocks.display.HUE = 195 ;

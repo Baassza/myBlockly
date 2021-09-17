@@ -328,8 +328,9 @@
         <block type="APDS9960_color_gain"></block>
         <block type="APDS9960_read_colors"></block>
         <block type="APDS9960_color"></block>
-        <block type="scales"></block>
-
+        <block type="weight_findz"></block>
+        <block type="weight_findc"></block>
+        <block type="readweight"></block>
     </category>
     <sep></sep>
     <category id="catdisplay" name="Display">
