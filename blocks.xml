@@ -70,6 +70,7 @@
         </block>
         <block type="math_random_float"></block>
         <block type="base_map"></block>
+        <block type="isnan"></block>
     </category>
     <sep></sep>
     <category id="catText" name="Text">
@@ -315,7 +316,6 @@
     <category id="catMeasure" name="Measure">
         <block type="ultrasonic"></block>
         <block type="PZEM004T"></block>
-        <block type="PZEM017get"></block>
         <block type="PZEM017"></block>
         <block type="TCS34725"></block>
         <block type="APDS9960_init"></block>
@@ -553,5 +553,13 @@
         <block type="QMC5883"></block>
         <block type="otto9_gyro"></block>
         <block type="otto9_getg"></block>
+    </category>
+    <sep></sep>
+    <category id="catGPS" name="GPS">
+        <block type="GPS_init_ss"></block>
+        <block type="GPS_read_save_values"></block>
+        <block type="GPS_location"></block>
+        <block type="GPS_speed"></block>
+        <block type="GPS_datetime"></block>
     </category>
 </xml>

@@ -976,6 +976,13 @@ Blockly.Arduino.math_random_int = function (a) {
 Blockly.Arduino.math_random_float = function (a) {
     return ["(rand() / RAND_MAX)", Blockly.Arduino.ORDER_UNARY_POSTFIX]
 };
+
+Blockly.Arduino.isnan = function (a){
+    var b = Blockly.Arduino.valueToCode(a,"num",Blockly.Arduino.ORDER_NONE)
+    return [`isnan(${b})`,Blockly.Arduino.ORDER_CONDITIONAL]
+}
+
+
 Blockly.Arduino.procedures = {};
 Blockly.Arduino.procedures_defreturn = function (a) {
     var b = Blockly.Arduino.variableDB_.getName(a.getFieldValue("NAME"), Blockly.Procedures.NAME_TYPE),
@@ -1016,6 +1023,9 @@ Blockly.Arduino.arduino_functions = function (a) {
     //    if (!goog.isString(b)) throw 'Expecting code from statement block "' + a.type + '".';
     return b
 };
+
+
+
 Blockly.Arduino.serial = {};
 Blockly.Arduino.serial_print = function (a) {
     for (var b = a.getFieldValue("SERIAL_ID"), c = Blockly.Arduino.valueToCode(a, "CONTENT", Blockly.Arduino.ORDER_ATOMIC) || "0", d = "TRUE" == a.getFieldValue("NEW_LINE"), e = Blockly.Arduino.Boards.selected.serialPins[b], f = 0; f < e.length; f++) Blockly.Arduino.reservePin(a, e[f][1], Blockly.Arduino.PinTypes.SERIAL, "SERIAL " + e[f][0]);
@@ -1222,12 +1232,12 @@ Blockly.Arduino.infinite_loop = function (a) {
     return "while(true);\n"
 };
 Blockly.Arduino.Init_RTC_ds3231 = function(a) {
-    Blockly.Arduino.definitions_['include_RTClib'] = '#include <RTClib.h>\n';
-    Blockly.Arduino.definitions_['init_ds3232'] = 'RTC_DS3231 rtc;\n'+
+    Blockly.Arduino.addInclude('include_RTClib','#include <RTClib.h>\n');
+    Blockly.Arduino.addDeclaration('init_ds3232','RTC_DS3231 rtc;\n'+
         'DateTime t;\n'+
         'String daysOfTheWeek[7]= {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};\n'+
-        'String monthsNames[12]={"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}\n';
-    Blockly.Arduino.setups_['setup_ds3232'] = 'rtc.begin();\n';
+        'String monthsNames[12]={"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}\n');
+    Blockly.Arduino.addSetup('setup_ds3232','rtc.begin();\n');
     var code='';
     return code;
 };
@@ -1260,8 +1270,8 @@ Blockly.Arduino.DateTime_RTC_ds3231 = function(a) {
     var hour = Blockly.Arduino.valueToCode(this, 'DS3231_HOUR', Blockly.Arduino.ORDER_ATOMIC);
     var min = Blockly.Arduino.valueToCode(this, 'DS3231_MINUTE', Blockly.Arduino.ORDER_ATOMIC);
     var sec = Blockly.Arduino.valueToCode(this, 'DS3231_SECOND', Blockly.Arduino.ORDER_ATOMIC);
-    var code='rtc.adjust(DateTime('+year+','+month+','+day+','+hour+','+min+','+sec+'));\n';
-    return code;
+    Blockly.Arduino.addSetup('DateTime_RTC_ds3231','rtc.adjust(DateTime('+year+','+month+','+day+','+hour+','+min+','+sec+'));// setting time in format (yyyy,m,d,h,i,s)\n');
+
 };
 
 Blockly.Arduino.DateTime_RTC_ds1302= function(a) {
@@ -1277,7 +1287,7 @@ Blockly.Arduino.DateTime_RTC_ds1302= function(a) {
     var dayweek = days[d.getDay()].toUpperCase()
     var code ="//Set the clock to run-mode, and disable the write protection\n" +
         "rtc.halt(false);\n" +
-        "rtc.writeProtect(false);\n" +
+        "rtc.writeProtect(false);" +
         "// The following lines can be commented out to use the values already stored in the DS1302\n" +
         `rtc.setDOW(${dayweek}); // Set Day-of-Week to ${dayweek}\n` +
         `rtc.setTime(${hour},${min},${sec}); // Set the time to ${hour}:${min}:${sec} (24hr format)\n` +
@@ -1404,7 +1414,7 @@ Blockly.Arduino.DHT_humidity = function (a) {
 Blockly.Arduino.DS18B20 = function (a) {
     var b = a.getFieldValue("DS18B20PIN"),
         c = a.getFieldValue("DS18B20UNIT");
-    Blockly.Arduino.addInclude("DS18B20", "#include <my_ds18b20.h>")
+    Blockly.Arduino.addInclude("DS18B20", "#include <myDS18B20.h>")
     return c === "C" ? ["DS18B20_Read(" + b + ")", Blockly.Arduino.ORDER_ATOMIC] : ["DS18B20_Read(" + b + ",true)", Blockly.Arduino.ORDER_ATOMIC];
 }
 
@@ -1433,7 +1443,8 @@ Blockly.Arduino.H1750 = function (a) {
 
 Blockly.Arduino.security = {};
 Blockly.Arduino.RFID = function (a) {
-    Blockly.Arduino.addInclude("BME280", "#include <myRFID.h>");
+    Blockly.Arduino.addInclude("RFID", "#include <myRFID.h>");
+    Blockly.Arduino.addDeclaration("RFID","// RFIDRead() return RFID code or error message type text.")
     return ["RFIDRead()", Blockly.Arduino.ORDER_ATOMIC];
 }
 
@@ -1457,11 +1468,6 @@ Blockly.Arduino.PZEM004T = function (a) {
 
 }
 
-Blockly.Arduino.PZEM017get = function (a) {
-    var c = a.getFieldValue("PZEM017_RX"),
-        d = a.getFieldValue("PZEM017_TX");
-    return "pzem" + c + "_" + d + ".getSlaveParameters();\n";
-}
 Blockly.Arduino.PZEM017 = function (a) {
     Blockly.Arduino.addInclude("PZEM017", "#include<PZEM017v1.h>");
     var b = a.getFieldValue("PZEM017_data"),
@@ -1541,12 +1547,35 @@ Blockly.Arduino.APDS9960_color = function(a) {
     return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 Blockly.Arduino.TCS34725 = function(a) {
-    Blockly.Arduino.addInclude("mycolor","#include<mycolor.h>")
+    Blockly.Arduino.addInclude("myColor","#include<myColor.h>")
     var b = a.getFieldValue("tcs34725_color");
     var code = `tcs34725_capturecolor(\'${b}\')`;
     return [code, Blockly.Arduino.ORDER_NONE];
 };
 
+Blockly.Arduino.weight_findz = function(a){
+    Blockly.Arduino.addInclude("myWeight","#include<myWeight.h>")
+    var b = a.getFieldValue('DOUT')
+    var c = a.getFieldValue('CLK')
+    return [`FindZeroFactor(${b},${c})`, Blockly.Arduino.ORDER_NONE];
+}
+
+Blockly.Arduino.weight_findc = function(a){
+    Blockly.Arduino.addInclude("myWeight","#include<myWeight.h>")
+    var b = a.getFieldValue('DOUT')
+    var c = a.getFieldValue('CLK')
+    var d = a.getFieldValue('real_weight')
+    var e = a.getFieldValue('zero_factor')
+    return [`FindCalibrationFactor(${b},${c},${d},${e})`, Blockly.Arduino.ORDER_NONE];
+}
+Blockly.Arduino.readweight = function(a){
+    Blockly.Arduino.addInclude("myWeight","#include<myWeight.h>")
+    var b = a.getFieldValue('DOUT')
+    var c = a.getFieldValue('CLK')
+    var d = a.getFieldValue('offset')
+    var e = a.getFieldValue('calibration_factor')
+    return [`ReadWeight(${b},${c},${d},${e})`, Blockly.Arduino.ORDER_NONE];
+}
 
 Blockly.Arduino.display = {};
 Blockly.Arduino.OLED_init = function(a) {
@@ -1784,7 +1813,7 @@ Blockly.Arduino.QMC5883 = function (a) {
     return ["QMC5883Read('" + b + "')", Blockly.Arduino.ORDER_ATOMIC];
 }
 Blockly.Arduino.otto9_gyro = function(a) {
-    Blockly.Arduino.variables('gyro','int16_t ax, ay, az; \n' +'int16_t gx, gy, gz;\n');
+    Blockly.Arduino.addVariable('gyro','int16_t ax, ay, az; \n' +'int16_t gx, gy, gz;\n');
     Blockly.Arduino.addInclude('gyro','#include "Wire.h"\n' +'#include "I2Cdev.h"\n' +'#include "MPU6050.h"\n');
     Blockly.Arduino.addDeclaration('gyro','MPU6050 accelgyro;');
     Blockly.Arduino.addSetup('gyro',' Wire.begin();\n' +'accelgyro.initialize();\n');
@@ -1797,10 +1826,8 @@ Blockly.Arduino.otto9_getg = function(a) {
 };
 
 
-
 Blockly.Arduino.bluetooth = {}
 Blockly.Arduino.soft_bt_init = function(a) {
-
     var pin_rx = this.getFieldValue('PIN_RX');
     var pin_tx = this.getFieldValue('PIN_TX');
     var dropdown_pinbaudios = this.getFieldValue('PINBAUDIOS');
@@ -1893,5 +1920,86 @@ Blockly.Arduino.soft_bt_println = function(a) {
 };
 
 
+Blockly.Arduino.GPS = {}
 
+Blockly.Arduino.GPS_init_ss = function(a) {
+    var pin_rx = this.getFieldValue('PIN_RX');
+    var pin_tx = this.getFieldValue('PIN_TX');
+    Blockly.Arduino.includes_['define_softwareserial_library'] = '#include <SoftwareSerial.h>';
+    Blockly.Arduino.includes_['define_gps_library'] = '#include <TinyGPS.h>';
+    Blockly.Arduino.definitions_['define_GPS_variable'] = 'TinyGPS gps;\n';
+    Blockly.Arduino.definitions_['define_softwareserial_gps'] = 'SoftwareSerial mySoftwareSerialgps('+pin_rx+','+pin_tx+');\n';
+    Blockly.Arduino.definitions_['gps_variables'] ='float flat,flon,falt,fc,fk,fmph,fmps,fkmph;\n'+
+        'int year;\n'+
+        'byte month, day, hour, minutes, second, hundredths,nsat;\n'+
+        'unsigned long fix_age; \n';
 
+    Blockly.Arduino.setups_['setup_sserial_gps_baudios'] = 'mySoftwareSerialgps.begin(9600);\n';
+    var code='';
+    return code;
+};
+
+Blockly.Arduino.GPS_read_save_values = function(a) {
+    var code = 'while (mySoftwareSerialgps.available())\n'+
+        ' {\n'+
+        '  int c = mySoftwareSerialgps.read();\n'+
+        '  if (gps.encode(c)) \n'+
+        '   {\n'+
+        '     gps.f_get_position(&flat, &flon, &fix_age);\n'+
+        '     falt = gps.f_altitude(); // +/- altitude in meters \n'+
+        '     fc = gps.f_course(); // course in degrees \n'+
+        '     fk = gps.f_speed_knots(); // speed in knots \n'+
+        '     fmph = gps.f_speed_mph(); // speed in miles/hr \n'+
+        '     fmps = gps.f_speed_mps(); // speed in m/sec \n'+
+        '     fkmph = gps.f_speed_kmph(); // speed in km/hr \n'+
+        '     gps.crack_datetime(&year, &month, &day,&hour, &minutes, &second, &hundredths, &fix_age);\n'+
+        '     nsat=gps.satellites();\n'+
+        '   }\n'+
+        '  }\n';
+    return code;
+};
+
+Blockly.Arduino.GPS_location = function(a) {
+    var parameter = this.getFieldValue('PARAMETERS1');
+    if(parameter ==0)
+        var code='flat';
+    else  if(parameter ==1)
+        var code='flon';
+    else  if(parameter ==2)
+        var code='falt';
+    else if(parameter ==3)
+        var code='fc';
+    else
+        var code='nsat';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.GPS_speed = function(a) {
+    var parameter = this.getFieldValue('PARAMETERS2');
+    if(parameter ==0)
+        var code='fk';
+    else  if(parameter ==1)
+        var code='fmph';
+    else  if(parameter ==2)
+        var code='fmps';
+    else
+        var code='fkmph';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
+};
+
+Blockly.Arduino.GPS_datetime = function(a) {
+    var parameter = this.getFieldValue('PARAMETERS3');
+    if(parameter ==0)
+        var code='year';
+    else  if(parameter ==1)
+        var code='month';
+    else  if(parameter ==2)
+        var code='day';
+    else if(parameter ==3)
+        var code='hour';
+    else if(parameter ==4)
+        var code='minutes';
+    else
+        var code='second';
+    return [code, Blockly.Arduino.ORDER_ATOMIC];
+};

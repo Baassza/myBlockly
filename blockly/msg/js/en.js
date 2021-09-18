@@ -698,3 +698,11 @@ Blockly.Msg.APDS9960_gesture_detected = "detected?";
 Blockly.Msg.APDS9960_readgesture = "Read";
 Blockly.Msg.APDS9960_readcolors = "Read color frecuencies";
 Blockly.Msg.APDS9960_colors = "Frequency";
+
+Blockly.Msg.GPS_name = " GPS NEO-6";
+Blockly.Msg.GPS_init = "GPS Pins";
+Blockly.Msg.GPS_TX="TX";
+Blockly.Msg.GPS_RX="RX";
+Blockly.Msg.GPS_readvalues = "Read and save values";
+Blockly.Msg.GPS_paramter = "Location Parameters:";
+Blockly.Msg.GPS_paramter3 = "DateTime:";

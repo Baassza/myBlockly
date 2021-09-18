@@ -523,6 +523,7 @@ Blockly.Blocks.logic_null = {
         return Blockly.Types.NULL
     }
 };
+
 Blockly.Blocks.logic_ternary = {
     init: function () {
         this.setHelpUrl(Blockly.Msg.LOGIC_TERNARY_HELPURL);
@@ -547,6 +548,8 @@ Blockly.Blocks.logic_ternary = {
         this.prevParentConnection_ = d
     }
 };
+
+
 Blockly.Blocks.loops = {};
 Blockly.Blocks.loops.HUE = 120;
 Blockly.Blocks.controls_repeat_ext = {
@@ -937,6 +940,20 @@ Blockly.Blocks.math_number_property = {
         return Blockly.Types.BOOLEAN
     }
 };
+
+Blockly.Blocks.isnan = {
+    init: function() {
+        this.appendValueInput("num")
+            .setCheck(null)
+            .appendField("Is not a number");
+        this.setOutput(true, "Boolean");
+        this.setColour(Blockly.Blocks.math.HUE);
+        this.setTooltip("return true if x is a NaN value  return false otherwise.");
+        this.setHelpUrl("https://www.cplusplus.com/reference/cmath/isnan/");
+    }
+};
+
+
 Blockly.Blocks.math_change = {
     init: function () {
         this.jsonInit({
@@ -1469,6 +1486,9 @@ Blockly.Blocks.procedures_ifreturn = {
     },
     FUNCTION_TYPES: ["procedures_defnoreturn", "procedures_defreturn"]
 };
+
+
+
 Blockly.Blocks.texts = {};
 Blockly.Blocks.texts.HUE = 160;
 Blockly.Blocks.text = {
@@ -2198,6 +2218,7 @@ Blockly.Blocks.base_map = {
         return Blockly.Types.NUMBER
     }
 };
+
 Blockly.Blocks.procedures.HUE = 290;
 Blockly.Blocks.arduino_functions = {
     init: function () {
@@ -2328,7 +2349,7 @@ Blockly.Blocks.spi_setup = {
 };
 
 Blockly.Blocks.bluetooth = {};
-Blockly.Blocks.bluetooth.HUE = 170;
+Blockly.Blocks.bluetooth.HUE = 45;
 Blockly.Blocks.bluetooth_init={
     init:function(){
         this.setColour(Blockly.Blocks.bluetooth.HUE);
@@ -2474,7 +2495,6 @@ Blockly.Blocks.bluetooth_create_container={init:function(){
 };
 
 Blockly.Blocks.soft_bt_init = {
-    helpUrl: 'http://arduino.cc/en/Reference/AnalogWrite',
     init: function() {
         this.setColour(Blockly.Blocks.bluetooth.HUE);
         this.appendDummyInput()
@@ -2490,10 +2510,10 @@ Blockly.Blocks.soft_bt_init = {
             .appendField(new Blockly.FieldDropdown([['1200', '1200'],['2400', '2400'],['4800', '4800'],['9600', '9600'],['19200', '19200'],['38400', '38400'],['57600', '57600'],['115200', '115200']]), "PINBAUDIOS");
         this.setInputsInline(true);
         this.setTooltip('A call to SoftwareSerial(rxPin, txPin) creates a new SoftwareSerial object');
+        this.setHelpUrl('http://arduino.cc/en/Reference/AnalogWrite')
     }
 };
 Blockly.Blocks.soft_bt_printfor = {
-    helpUrl: 'http://arduino.cc/en/Serial/Println',
     init: function() {
         this.setColour(Blockly.Blocks.bluetooth.HUE);
         this.setInputsInline(true);
@@ -2504,6 +2524,7 @@ Blockly.Blocks.soft_bt_printfor = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setTooltip('Prints data to the console/serial port with a specific format.');
+        this.setHelpUrl('http://arduino.cc/en/Serial/Println')
     }
 };
 Blockly.Blocks.soft_bt_available = {
@@ -2556,8 +2577,8 @@ Blockly.Blocks.soft_bt_read_number = {
     }
 };
 
-Blockly.Blocks['soft_bt_println'] = {
-    helpUrl: 'http://www.arduino.cc/en/Serial/Print',
+Blockly.Blocks.soft_bt_println = {
+
     init: function() {
         this.setColour(Blockly.Blocks.bluetooth.HUE);
         this.appendValueInput("CONTENT", "String")
@@ -2566,10 +2587,10 @@ Blockly.Blocks['soft_bt_println'] = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setTooltip('');
+        this.setHelpUrl('http://www.arduino.cc/en/Serial/Print')
     }
 };
 Blockly.Blocks.soft_bt_print = {
-    helpUrl: 'http://www.arduino.cc/en/Serial/Print',
     init: function() {
         this.setColour(Blockly.Blocks.bluetooth.HUE);
         this.appendValueInput("CONTENT", "String")
@@ -2578,6 +2599,7 @@ Blockly.Blocks.soft_bt_print = {
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
         this.setTooltip('');
+        this.setHelpUrl('http://www.arduino.cc/en/Serial/Print')
     }
 };
 
@@ -2880,8 +2902,8 @@ Blockly.Blocks.DateTime_RTC_ds3231 = {
             .setCheck("Number")
             .appendField(Blockly.Msg.RTCDS3231_SECOND);
         this.setInputsInline(false);
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
         this.setTooltip('Init the date time in the RTC_DS3231');
     }
 };
@@ -2963,8 +2985,8 @@ Blockly.Blocks.DateTime_RTC_ds1302 = {
             .setCheck("Number")
             .appendField(Blockly.Msg.RTCDS1302_SECOND);
         this.setInputsInline(false);
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        this.setPreviousStatement(false);
+        this.setNextStatement(false);
         this.setTooltip('Init the date time in the RTC_DS1302');
     }
 };
@@ -3052,7 +3074,6 @@ Blockly.Blocks.variables_set_type = {
         this.setInputsInline(!0);
         this.setOutput(!0);
         this.setTooltip(Blockly.Msg.ARD_VAR_AS_TIP)
-        console.log(Blockly.Types.getValidTypeArray())
     },
     getBlockType: function () {
         var a = this.getFieldValue("VARIABLE_SETTYPE_TYPE");
@@ -3184,7 +3205,8 @@ Blockly.Blocks.PZEM004T = {
             .appendField("RX ")
             .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM004T_RX")
             .appendField("TX ")
-            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM004T_TX") ;
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM004T_TX")
+            .appendField(" AC")
         this.setOutput(true, "Number");
         this.setColour(Blockly.Blocks.measure.HUE);
         this.setTooltip(Blockly.Msg.PZEM004T_TOOLTIP);
@@ -3192,21 +3214,6 @@ Blockly.Blocks.PZEM004T = {
     }
 }
 
-Blockly.Blocks.PZEM017get = {
-    init: function() {
-        this.appendDummyInput()
-            .appendField("PZEM-017 getSlaveParameters")
-            .appendField("RX ")
-            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM017_RX")
-            .appendField("TX ")
-            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM017_TX") ;
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
-        this.setColour(Blockly.Blocks.measure.HUE);
-        this.setTooltip(Blockly.Msg.PZEM017_TOOLTIP);
-        this.setHelpUrl(Blockly.Msg.PZEM017_HELPURL);
-    }
-}
 
 Blockly.Blocks.PZEM017 = {
     init: function() {
@@ -3216,7 +3223,8 @@ Blockly.Blocks.PZEM017 = {
             .appendField("RX ")
             .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM017_RX")
             .appendField("TX ")
-            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM017_TX") ;
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PZEM017_TX")
+            .appendField(" DC")
         this.setOutput(true, "Number");
         this.setColour(Blockly.Blocks.measure.HUE);
         this.setTooltip(Blockly.Msg.PZEM017_TOOLTIP);
@@ -3315,7 +3323,6 @@ Blockly.Blocks.APDS9960_gesture_detected = {
     }
 };
 Blockly.Blocks.APDS9960_readgesture = {
-    helpUrl: '',
     init: function() {
         this.setColour(Blockly.Blocks.measure.HUE);
         this.appendDummyInput()
@@ -3324,6 +3331,7 @@ Blockly.Blocks.APDS9960_readgesture = {
         this.setInputsInline(true);
         this.setOutput(true, 'Number');
         this.setTooltip('Read gesture');
+        this.setHelpUrl('')
     }
 };
 
@@ -3799,6 +3807,82 @@ Blockly.Blocks.otto9_getg = {
     }
 };
 
+Blockly.Blocks.GPS ={}
+Blockly.Blocks.GPS.HUE = 66
+
+Blockly.Blocks.GPS_init_ss = {
+    init: function() {
+        this.setColour(Blockly.Blocks.GPS.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_init)
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_TX)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PIN_TX");
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_RX)
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "PIN_RX");
+        this.setInputsInline(true);
+        this.setTooltip('Init the GPS module');
+        this.setHelpUrl("");
+
+    }
+};
+
+Blockly.Blocks.GPS_read_save_values = {
+    init: function() {
+        this.setColour(Blockly.Blocks.GPS.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_name)
+            .appendField(Blockly.Msg.GPS_readvalues)
+        this.setInputsInline(true);
+        this.setPreviousStatement(true, null);
+        this.setNextStatement(true, null);
+        this.setTooltip('Read the GPS values and save in the variables');
+        this.setHelpUrl("");
+    }
+};
+
+Blockly.Blocks.GPS_location = {
+    init: function() {
+        this.setColour(Blockly.Blocks.GPS.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_name)
+            .appendField(Blockly.Msg.GPS_paramter)
+            .appendField(new Blockly.FieldDropdown([['Latitude','0'],['Longitude','1'],['Altitude in meters','2'],['Course in degrees','3'],['Number of satellites','4']]), "PARAMETERS1")
+        this.setInputsInline(true);
+        this.setOutput(true, 'Number');
+        this.setTooltip('Return location parameters');
+        this.setHelpUrl("")
+    }
+};
+
+Blockly.Blocks.GPS_speed = {
+    init: function() {
+        this.setColour(Blockly.Blocks.GPS.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_name)
+            .appendField(new Blockly.FieldDropdown([['Speed in knots','0'],['Speed in miles/h','1'],['Speed in m/sec','2'],['Speed in km/h','3']]), "PARAMETERS2")
+        this.setInputsInline(true);
+        this.setOutput(true, 'Number');
+        this.setTooltip('Return speed parameters');
+        this.setHelpUrl("")
+    }
+};
+
+
+Blockly.Blocks.GPS_datetime = {
+    init: function() {
+        this.setColour(Blockly.Blocks.GPS.HUE);
+        this.appendDummyInput()
+            .appendField(Blockly.Msg.GPS_name)
+            .appendField(Blockly.Msg.GPS_paramter3)
+            .appendField(new Blockly.FieldDropdown([['Year','0'],['Month','1'],['Day','2'],['Hours','3'],['Minutes','4'],['Seconds','5']]), "PARAMETERS3")
+        this.setInputsInline(true);
+        this.setOutput(true, 'Number');
+        this.setTooltip('Return datetime parameters');
+        this.setHelpUrl("")
+    }
+};
 
 
 
