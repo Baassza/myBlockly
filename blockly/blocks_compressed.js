@@ -3181,6 +3181,66 @@ Blockly.Blocks.RFID = {
     }
 }
 
+Blockly.Blocks.fingerprint_empty = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField(" fingerprint empty   RX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint_RX remove")
+            .appendField("TX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint_TX remove");
+        this.setOutput(true, "String");
+        this.setColour(Blockly.Blocks.security.HUE);
+        this.setTooltip("empty database fingerprint sensor.");
+        this.setHelpUrl("");
+    }
+};
+Blockly.Blocks.fingerprint_scan= {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("fingerprint scan")
+            .appendField(" RX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint_RX scan")
+            .appendField(" TX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint_TX scan");
+        this.setOutput(true, "String");
+        this.setColour(Blockly.Blocks.security.HUE);
+        this.setTooltip("return id or error message from fingerprint scan in text.");
+        this.setHelpUrl("");
+    }
+};
+Blockly.Blocks.fingerprint_delete = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("fingerprint delete RX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint_RX delete")
+            .appendField("TX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint_TX delete")
+            .appendField("id")
+            .appendField(new Blockly.FieldNumber(0, 0, 127), "id delete");
+        this.setOutput(true, "String");
+        this.setColour(Blockly.Blocks.security.HUE);
+        this.setTooltip("remove fingerprint image in dataabase from id  and return OK or error message from fingerprint scan in text.");
+        this.setHelpUrl("");
+    }
+};
+Blockly.Blocks.fingerprint_enroll = {
+    init: function() {
+        this.appendDummyInput()
+            .appendField("fingerprint enroll RX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint enroll RX")
+            .appendField("TX")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "fingerprint enroll TX")
+            .appendField("id")
+            .appendField(new Blockly.FieldNumber(0, 0, 127), "id enroll");
+        this.setOutput(true, "String");
+        this.setColour(Blockly.Blocks.security.HUE);
+        this.setTooltip("enroll fingerprint image in dataabase add id  and return OK or error message from fingerprint scan in text.");
+        this.setHelpUrl("");
+    }
+};
+
+
+
 Blockly.Blocks.measure = {}
 Blockly.Blocks.measure.HUE = 45;
 Blockly.Blocks.ultrasonic = {

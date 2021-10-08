@@ -1252,6 +1252,7 @@ Blockly.Arduino.Init_RTC_ds1302 = function(a) {
         'String daysOfTheWeek[7]= {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};\n'+
         'String monthsNames[12]={"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};\n'+
         '\nint DS1302_getnum(bool month){\n' +
+        '//convert mouth or day of week to number.\n'+
         '  String M_Str=month?rtc.getMonthStr():rtc.getDOWStr();\n' +
         '  int end=month?12:7;\n'+
         '  for(int i=0;i<end;i++){\n' +
@@ -1297,11 +1298,11 @@ Blockly.Arduino.DateTime_RTC_ds1302= function(a) {
 
 
 Blockly.Arduino.order_read_rtc_ds3231 = function(a) {
-    return 't=rtc.now();\n'
+    return 't=rtc.now();//get time from ds3231.\n'
 };
 
 Blockly.Arduino.order_read_rtc_ds1302 = function(a) {
-    return 't=rtc.getTime();\n'
+    return 't=rtc.getTime(); //get time from ds1302.\n'
 };
 
 
@@ -1446,6 +1447,40 @@ Blockly.Arduino.RFID = function (a) {
     Blockly.Arduino.addInclude("RFID", "#include <myRFID.h>");
     Blockly.Arduino.addDeclaration("RFID","// RFIDRead() return RFID code or error message type text.")
     return ["RFIDRead()", Blockly.Arduino.ORDER_ATOMIC];
+}
+
+Blockly.Arduino.fingerprint_empty = function (a){
+    Blockly.Arduino.addDeclaration("fingerprint_empty","// Fingerprint_empty() return OK  or error message type text.")
+    Blockly.Arduino.addInclude("fingerprint", "#include <myFingerprint.h>");
+    var b = a.getFieldValue("fingerprint_RX remove")
+    var c = a.getFieldValue("fingerprint_TX remove")
+    return[`Fingerprint_empty(${b},${c})`,Blockly.Arduino.ORDER_ATOMIC]
+}
+
+Blockly.Arduino.fingerprint_scan = function (a){
+    Blockly.Arduino.addDeclaration("fingerprint_scan","// Fingerprint_scan() return OK  or error message type text.")
+    Blockly.Arduino.addInclude("fingerprint", "#include <myFingerprint.h>");
+    var b = a.getFieldValue("fingerprint_RX scan")
+    var c = a.getFieldValue("fingerprint_TX scan")
+    return[`Fingerprint_scan(${b},${c})`,Blockly.Arduino.ORDER_ATOMIC]
+}
+
+Blockly.Arduino.fingerprint_delete = function (a){
+    Blockly.Arduino.addDeclaration("fingerprint_delete","// Fingerprint_delete() return OK  or error message type text.")
+    Blockly.Arduino.addInclude("fingerprint", "#include <myFingerprint.h>");
+    var b = a.getFieldValue("fingerprint_RX delete")
+    var c = a.getFieldValue("fingerprint_TX delete")
+    var d = a.getFieldValue("id delete")
+    return[`Fingerprint_delete(${b},${c},${d})`,Blockly.Arduino.ORDER_ATOMIC]
+}
+
+Blockly.Arduino.fingerprint_enroll = function (a){
+    Blockly.Arduino.addDeclaration("fingerprint_enroll","// Fingerprint_enroll() return OK  or error message type text.")
+    Blockly.Arduino.addInclude("fingerprint", "#include <myFingerprint.h>");
+    var b = a.getFieldValue("fingerprint_RX enroll")
+    var c = a.getFieldValue("fingerprint_TX enroll")
+    var d = a.getFieldValue("id enroll")
+    return[`Fingerprint_enroll(${b},${c},${d})`,Blockly.Arduino.ORDER_ATOMIC]
 }
 
 

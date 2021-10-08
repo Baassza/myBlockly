@@ -14,3 +14,9 @@ function save_Arduino() {
     a.click();
     URL.revokeObjectURL(a.href);
 }
+
+function copy() {
+    var code=document.getElementById("content_arduino").innerText;
+    navigator.clipboard.writeText(code);
+    alert("OK")
+}

@@ -311,6 +311,10 @@
     <sep></sep>
     <category id="catSecurity" name="Security">
         <block type="RFID"></block>
+        <block type="fingerprint_empty"></block>
+        <block type="fingerprint_scan"></block>
+        <block type="fingerprint_delete"></block>
+        <block type="fingerprint_enroll"></block>
     </category>
     <sep></sep>
     <category id="catMeasure" name="Measure">
