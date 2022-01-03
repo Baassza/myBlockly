@@ -1860,6 +1860,24 @@ Blockly.Arduino.otto9_getg = function(a) {
     return [code, Blockly.Arduino.ORDER_ATOMIC];
 };
 
+Blockly.Arduino.motor_set = function(a) {
+    var b = a.getFieldValue("PWMpin");
+    var c = a.getFieldValue("DIRpin");
+    var d = a.getFieldValue("motor_mode");
+    var e = Blockly.Arduino.valueToCode(a, 'motor_speed', Blockly.Arduino.ORDER_ATOMIC);
+    Blockly.Arduino.addInclude("motor", "#include <myMotor.h>");
+    var code = "Motor_"+d+"("+b+","+c+","+e+");\n";
+    return code;
+}
+Blockly.Arduino.motor_stop = function(a) {
+    var b = a.getFieldValue("PWMpin");
+    var c = a.getFieldValue("DIRpin");
+    var d = a.getFieldValue("stop_mode");
+    Blockly.Arduino.addInclude("motor", "#include <myMotor.h>");
+    var code = "Motor_"+d+"("+b+","+c+");\n";
+    return code;
+}
+
 
 Blockly.Arduino.bluetooth = {}
 Blockly.Arduino.soft_bt_init = function(a) {

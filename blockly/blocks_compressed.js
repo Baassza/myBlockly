@@ -3791,17 +3791,16 @@ Blockly.Blocks.LCDPrint = {
 
 Blockly.Blocks.LCDXY = {
     init: function() {
-        this.appendDummyInput()
-            .appendField("LCD set position  X ")
-            .appendField(new Blockly.FieldNumber(0), "LCD_X")
-            .appendField(" Y  ")
-            .appendField(new Blockly.FieldNumber(0), "LCD_Y");
-        this.setPreviousStatement(true, null);
-        this.setNextStatement(true, null);
+        this.appendDummyInput()  .appendField("LCD set position");
+        this.appendValueInput("LCD_X") .setAlign(Blockly.ALIGN_RIGHT) .setCheck("Number") .appendField("X");
+        this.appendValueInput("LCD_Y").setAlign(Blockly.ALIGN_RIGHT)   .setCheck("Number")   .appendField("Y");
+        this.setInputsInline(true);
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
         this.setColour(Blockly.Blocks.display.HUE);
-        this.setTooltip(Blockly.Msg.LCD_TOOLTIP);
-        this.setHelpUrl(Blockly.Msg.LCD_HELPURL);
-    }
+        this.setTooltip('');
+        this.setHelpUrl('https://learn.adafruit.com/monochrome-oled-breakouts/arduino-library-and-examples');
+    }  
 }
 Blockly.Blocks.LCDC = {
     init: function() {
@@ -3867,9 +3866,46 @@ Blockly.Blocks.otto9_getg = {
     }
 };
 
+Blockly.Blocks.motor_set = {
+        init: function() {
+            this.appendDummyInput()
+            .appendField("motor PWM pin")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.pwmPins), "PWMpin")
+            .appendField("DIR pin")
+            .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "DIRpin")
+            .appendField("mode ")
+            .appendField(new Blockly.FieldDropdown([["forward","forward"], ["backward","backward"]]), "motor_mode")
+            this.appendValueInput("motor_speed") .setAlign(Blockly.ALIGN_RIGHT).setCheck("Number").appendField("speed")
+            this.appendDummyInput() .appendField("%")
+            this.setInputsInline(true)
+            this.setPreviousStatement(true)
+            this.setNextStatement(true)
+            this.setColour(Blockly.Blocks.robotics.HUE);
+            this.setTooltip('');
+            this.setHelpUrl('https://learn.adafruit.com/monochrome-oled-breakouts/arduino-library-and-examples');
+        }
+    };
+
+  Blockly.Blocks.motor_stop = {
+    init: function() {
+      this.appendDummyInput()
+          .appendField("motor stop PWM pin")
+          .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.pwmPins), "PWMpin")
+          .appendField("DIR pin")
+          .appendField(new Blockly.FieldDropdown(Blockly.Arduino.Boards.selected.digitalPins), "DIRpin")
+          .appendField("mode ")
+          .appendField(new Blockly.FieldDropdown([["free","stop"], ["lock","lock"]]), "stop_mode")
+      this.setPreviousStatement(true, null);
+      this.setNextStatement(true, null);
+      this.setColour(Blockly.Blocks.robotics.HUE);
+   this.setTooltip("set stop motor mode");
+   this.setHelpUrl("");
+    }
+  };
+
+
 Blockly.Blocks.GPS ={}
 Blockly.Blocks.GPS.HUE = 66
-
 Blockly.Blocks.GPS_init_ss = {
     init: function() {
         this.setColour(Blockly.Blocks.GPS.HUE);

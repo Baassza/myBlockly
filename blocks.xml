@@ -272,6 +272,14 @@
                 </block>
             </value>
         </block>
+        <block type="motor_set">
+         <value name="motor_speed">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
+        <block type="motor_stop"></block>
     </category>
     <sep></sep>
     <category id="catComms" name="Comms">
@@ -340,7 +348,18 @@
     <category id="catdisplay" name="Display">
         <block type="LCD_init"></block>
         <block type="LCDPrint"></block>
-        <block type="LCDXY"></block>
+        <block type="LCDXY">
+        <value name="LCD_X">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+            <value name="LCD_Y">
+                <shadow type="math_number">
+                    <field name="NUM">0</field>
+                </shadow>
+            </value>
+        </block>
         <block type="LCDC"></block>
         <block type="OLED_init"></block>
         <block type="oled_icon"></block>
