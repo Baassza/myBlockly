@@ -614,6 +614,10 @@ Blockly.Arduino.Boards.refreshBlockFieldDropdown = function (a, b, c) {
     for (var d = !1, e = 0; e < c.length; e++) b == c[e][1] && (d = !0);
     d ? a.setWarningText(null, "bPin") : a.setWarningText("The old pin value " + b + " is no longer available.", "bPin")
 };
+Blockly.Arduino.Boards.selected.digitalPins.push(["A6", "A6"]);
+Blockly.Arduino.Boards.selected.digitalPins.push(["A7", "A7"]);
+Blockly.Arduino.Boards.selected.analogPins.push(["A6", "A6"]);
+Blockly.Arduino.Boards.selected.analogPins.push(["A7", "A7"]);
 Blockly.Arduino.colour = {};
 Blockly.Arduino.colour_picker = Blockly.Arduino.noGeneratorCodeInline;
 Blockly.Arduino.colour_random = Blockly.Arduino.noGeneratorCodeInline;
