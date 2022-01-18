@@ -624,11 +624,18 @@ Blockly.Arduino.colour_random = Blockly.Arduino.noGeneratorCodeInline;
 Blockly.Arduino.colour_rgb = Blockly.Arduino.noGeneratorCodeInline;
 Blockly.Arduino.colour_blend = Blockly.Arduino.noGeneratorCodeInline;
 Blockly.Arduino.IO = {};
+
+Blockly.Arduino.pin_mode = function (a) {
+    var b = a.getFieldValue("PIN");
+    var c = a.getFieldValue("MODE");
+    Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.INPUT, c==="OUTPUT"?"Digital Write":"Digital Read");
+    Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", "+c+");");
+};
 Blockly.Arduino.io_digitalwrite = function (a) {
     var b = a.getFieldValue("PIN"),
         c = Blockly.Arduino.valueToCode(a, "STATE", Blockly.Arduino.ORDER_ATOMIC) || "LOW";
     Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.OUTPUT, "Digital Write");
-    Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", OUTPUT);", !1);
+    Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", OUTPUT);");
     return "digitalWrite(" + b + ", " + c + ");\n"
 };
 Blockly.Arduino.io_digitalread = function (a) {
@@ -636,13 +643,6 @@ Blockly.Arduino.io_digitalread = function (a) {
     Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.INPUT, "Digital Read");
     Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", INPUT);", !1);
     return ["digitalRead(" + b + ")", Blockly.Arduino.ORDER_ATOMIC]
-};
-Blockly.Arduino.io_builtin_led = function (a) {
-    var b = a.getFieldValue("BUILT_IN_LED"),
-        c = Blockly.Arduino.valueToCode(a, "STATE", Blockly.Arduino.ORDER_ATOMIC) || "LOW";
-    Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.OUTPUT, "Set LED");
-    Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", OUTPUT);", !1);
-    return "digitalWrite(" + b + ", " + c + ");\n"
 };
 Blockly.Arduino.myinterrupt = function (a) {
     var b = Blockly.Arduino.statementToCode(a, 'Interrupt_fn'),

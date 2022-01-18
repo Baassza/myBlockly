@@ -101,17 +101,13 @@
     <category id="catFunctions" name="Functions" custom="PROCEDURE"></category>
     <sep></sep>
     <category id="catInputOutput" name="Input/Output">
+    <block type="pin_mode"></block>
         <block type="io_digitalwrite">
             <value name="STATE">
                 <block type="io_highlow"></block>
             </value>
         </block>
         <block type="io_digitalread"></block>
-        <block type="io_builtin_led">
-            <value name="STATE">
-                <block type="io_highlow"></block>
-            </value>
-        </block>
         <block type="io_analogwrite"></block>
         <block type="io_analogread"></block>
         <block type="io_highlow"></block>
