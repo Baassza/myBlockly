@@ -628,8 +628,13 @@ Blockly.Arduino.IO = {};
 Blockly.Arduino.pin_mode = function (a) {
     var b = a.getFieldValue("PIN");
     var c = a.getFieldValue("MODE");
-    Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.INPUT, c==="OUTPUT"?"Digital Write":"Digital Read");
+    if(c === "OUTPUT"){
+        Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.OUTPUT, "Digital Write");
+    }else{
+        Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.INPUT, "Digital Read");
+    }
     Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", "+c+");");
+    return '';
 };
 Blockly.Arduino.io_digitalwrite = function (a) {
     var b = a.getFieldValue("PIN"),
