@@ -3797,16 +3797,19 @@ Blockly.Blocks.LCDPrint = {
 Blockly.Blocks.LCDXY = {
     init: function () {
         this.appendDummyInput().appendField("LCD set position");
-        this.appendValueInput("LCD_X").setAlign(Blockly.ALIGN_RIGHT).setCheck("Number").appendField("X");
-        this.appendValueInput("LCD_Y").setAlign(Blockly.ALIGN_RIGHT).setCheck("Number").appendField("Y");
+        this.appendValueInput("X").setAlign(Blockly.ALIGN_RIGHT).setCheck("Number").appendField("X");
+        this.appendValueInput("Y").setAlign(Blockly.ALIGN_RIGHT).setCheck("Number").appendField("Y");
         this.setInputsInline(true);
         this.setPreviousStatement(true);
         this.setNextStatement(true);
         this.setColour(Blockly.Blocks.display.HUE);
         this.setTooltip('');
-        this.setHelpUrl('https://learn.adafruit.com/monochrome-oled-breakouts/arduino-library-and-examples');
+        this.setHelpUrl('https://create.arduino.cc/projecthub/Arnov_Sharma_makes/lcd-i2c-tutorial-664e5a');
     }
-}
+};
+
+
+
 Blockly.Blocks.LCDC = {
     init: function () {
         this.appendDummyInput()

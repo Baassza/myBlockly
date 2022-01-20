@@ -1816,13 +1816,12 @@ Blockly.Arduino.LCD_init = function (a) {
 
 Blockly.Arduino.LCDPrint = function (a) {
     var b = Blockly.Arduino.valueToCode(a, "LCDtext", Blockly.Arduino.ORDER_ATOMIC) || "0";
-
     return "lcd.print(" + b + ");\n";
 }
 Blockly.Arduino.LCDXY = function (a) {
-    var x = a.getFieldValue("LCD_X"),
-        y = a.getFieldValue("LCD_Y");
-    return "lcd.setCursor(" + x + "," + y + ');\n';
+    var x = Blockly.Arduino.valueToCode(a, 'X', Blockly.Arduino.ORDER_ATOMIC);
+    var y = Blockly.Arduino.valueToCode(a, 'Y', Blockly.Arduino.ORDER_ATOMIC);
+    return "lcd.setCursor(" + x + "," + y + ');\n';    
 }
 Blockly.Arduino.LCDC = function (a) {
     return "lcd.clear();\n";
