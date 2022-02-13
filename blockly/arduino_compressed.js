@@ -1381,6 +1381,30 @@ Blockly.Arduino.io_tone = function (a) {
     Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", OUTPUT);\n", !1);
     return "tone(" + b + "," + c + ");\n"
 };
+Blockly.Arduino.io_tone_delay = function (a) {
+    var b = a.getFieldValue("TONEPIN"),
+        c = Blockly.Arduino.valueToCode(a, "FREQUENCY", Blockly.Arduino.ORDER_ATOMIC),
+        d =  Blockly.Arduino.valueToCode(a, "BPM", Blockly.Arduino.ORDER_ATOMIC),
+        e = Math.ceil(1000/a.getFieldValue("DURATION")*(d>0?(60/d):0))
+    Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.OUTPUT, "Tone Pin");
+    Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", OUTPUT);\n", !1);
+    return "tone(" + b + "," + c + ","+e+");\ndelay("+Math.ceil(e*1.3)+");\n"
+};
+Blockly.Arduino.io_note_delay = function (a) {
+    var b = a.getFieldValue("TONEPIN"),
+        c = a.getFieldValue("NOTE"),
+        d =  Blockly.Arduino.valueToCode(a, "BPM", Blockly.Arduino.ORDER_ATOMIC),
+        e = Math.ceil(1000/a.getFieldValue("DURATION")*(d>0?(60/d):0))
+    Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.OUTPUT, "Tone Pin");
+    Blockly.Arduino.addSetup("io_" + b, "pinMode(" + b + ", OUTPUT);\n", !1);
+    return "tone(" + b + "," + c + ","+e+");\ndelay("+Math.ceil(e*1.3)+");\n"
+};
+Blockly.Arduino.io_rest_tone = function (a) {
+    var d =  Blockly.Arduino.valueToCode(a, "BPM", Blockly.Arduino.ORDER_ATOMIC),
+        e = Math.ceil(1000/a.getFieldValue("DURATION")*(d>0?(60/d):0))
+    return "delay("+Math.ceil(e)+");\n"
+};
+
 Blockly.Arduino.io_notone = function (a) {
     var b = a.getFieldValue("TONEPIN");
     Blockly.Arduino.reservePin(a, b, Blockly.Arduino.PinTypes.OUTPUT, "Tone Pin");
