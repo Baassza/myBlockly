@@ -3923,7 +3923,7 @@ Blockly.Blocks.OLED_bitmap2 = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setTooltip('Draw a BPM icon');
+        this.setTooltip('Draw a bmp icon');
         this.setHelpUrl('http://javl.github.io/image2cpp/');
     }
 };
@@ -3940,7 +3940,7 @@ Blockly.Blocks.oled_icon = {
         this.setInputsInline(true);
         this.setPreviousStatement(true, null);
         this.setNextStatement(true, null);
-        this.setTooltip('Write icon BPM image in memory');
+        this.setTooltip('Write icon bmp image in memory');
         this.setHelpUrl('http://javl.github.io/image2cpp/');
     }
 };
@@ -3953,7 +3953,7 @@ Blockly.Blocks.LCD_init = {
             .appendField("LCD init type")
             .appendField(new Blockly.FieldDropdown([["16x2", "16x2"], ["20x4", "20x4"]]), "LCD_type")
             .appendField(" address")
-            .appendField(new Blockly.FieldDropdown([["0x27", "0x27"], ["0x35", "0x35"]]), "address");
+            .appendField(new Blockly.FieldDropdown([["0x27", "0x27"], ["0x3f", "0x3f"]]), "address");
         this.setColour(Blockly.Blocks.display.HUE);
         this.setTooltip(Blockly.Msg.LCD_TOOLTIP);
         this.setHelpUrl(Blockly.Msg.LCD_HELPURL);
