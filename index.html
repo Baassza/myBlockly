@@ -136,7 +136,7 @@
 <script src="ardublockly_blockly.js"></script>
 <script src="ardublockly.js"></script>
 <script>
-
+window.addEventListener("contextmenu", e => e.preventDefault());
   $("#XML").hide()
   window.addEventListener('load', function load(event)  {
     window.removeEventListener('load', load, false);
